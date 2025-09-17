@@ -30,12 +30,21 @@ export default {
 
 .background {
   position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background: linear-gradient(270deg, #ffe6f0, #ffccd5, #ffd9e8, #e6ccff, #ffcce6, #fff0f5);
-  background-size: 1800% 1800%;
-  animation: rainbowFlow 25s ease infinite;
-  z-index: 0; /* sotto tutti gli effetti */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* sfumatura verticale romantica */
+  background: linear-gradient(to bottom,
+    #6a0572 0%,    /* viola intenso */
+    #ab2f74 40%,   /* fucsia caldo */
+    #ff6f91 70%,   /* rosa acceso */
+    #ff9671 100%   /* arancio rosato */
+  );
+  z-index: 0;
+  pointer-events: none;
 }
+
 
 @keyframes rainbowFlow {
   0% { background-position: 0% 50%; }
@@ -43,3 +52,8 @@ export default {
   100% { background-position: 0% 50%; }
 }
 </style>
+
+
+
+
+

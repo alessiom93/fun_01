@@ -1,8 +1,8 @@
 <template>
   <div class="love-container">
     <h1 ref="title">Per la mia Livia ❤️</h1>
-    <p ref="message">Buon anniversario di fidanzamento!</p>
-    <p ref="message2">❤️ da: Alessio ❤️</p>
+    <p id="message" ref="message">Buon anniversario di fidanzamento!</p>
+    <p id="message2" ref="message2">❤️ da: Alessio ❤️</p>
     <button @click="surprise">Clicca per un messaggio speciale 💌</button>
 
     <div ref="explosion" class="explosion-container" aria-hidden="true"></div>
@@ -180,6 +180,36 @@ onComplete: () => {
 </script>
 
 <style scoped>
+/* ==================== BACKGROUND ==================== */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* sfumatura verticale romantica, statica */
+  background: linear-gradient(to bottom,
+    #6a0572 0%,    /* viola intenso */
+    #ab2f74 40%,   /* fucsia caldo */
+    #ff6f91 70%,   /* rosa acceso */
+    #ff9671 100%   /* arancio rosato */
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ==================== LOVE CONTAINER ==================== */
+.love-container {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #ff6699; /* più saturo per visibilità */
+  padding: 0 20px;
+  z-index: 2;
+}
+
+/* ==================== TESTI ==================== */
 h1, .popup {
   font-family: 'Pacifico', cursive;
 }
@@ -188,41 +218,55 @@ p, button {
   font-family: 'Dancing Script', cursive;
 }
 
-.love-container {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-  color: #ff0066;
-  padding: 0 20px;
-  z-index: 2;
-}
 h1 {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   margin-bottom: 20px;
-  text-shadow: 2px 2px 10px #ffb6c1;
+  color: red;
+  -webkit-text-stroke: 0.1px #ffffff; /* contorno bianco leggero */
+  text-stroke: 0.1px #ffffff; /* per browser che supportano */
+  text-shadow: 0.1px 0.1px 30px rgba(255,255,255,1); /* glow leggero aggiuntivo */
   animation: heartbeat 2s infinite;
 }
-p {
-  font-size: 1.5rem;
+
+#message {
+  font-size: 3rem;
   margin-bottom: 30px;
+  color: red; /* rosa chiaro in contrasto con sfondo */
+  -webkit-text-stroke: 0.3px #ffffff; /* contorno nero marcato */
+  text-stroke: 0.3px #ffffff;
+  text-shadow: 0.1px 0.1px 10px rgba(0,0,0,1); /* piccolo glow nero */
   animation: heartbeat 2.5s infinite;
 }
+
+#message2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: red; /* rosa chiaro in contrasto con sfondo */
+  -webkit-text-stroke: 0.1px #000000; /* contorno nero marcato */
+  text-stroke: 0.1px #000000;
+  text-shadow: 0.1px 0.1px 10px rgba(255,255,255,1); /* piccolo glow nero */
+  animation: heartbeat 2.5s infinite;
+}
+
+
+/* ==================== BUTTON ==================== */
 button {
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   background: #ff69b4;
   border: none;
   border-radius: 25px;
   color: white;
   cursor: pointer;
   transition: transform 0.2s;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
 }
+
 button:hover {
   transform: scale(1.1);
 }
 
-/* container centrato e fissato alla finestra */
+/* ==================== ESPLOSIONE CUORI ==================== */
 .explosion-container {
   position: fixed;
   top: 50%;
@@ -234,7 +278,6 @@ button:hover {
   z-index: 50;
 }
 
-/* gli elementi sono assoluti e animati via transform (GPU) */
 .heart-explosion {
   position: absolute;
   top: 0;
@@ -248,7 +291,7 @@ button:hover {
   user-select: none;
 }
 
-/* popup e stile */
+/* ==================== POPUP ==================== */
 .popup {
   position: fixed;
   top: 20%;
@@ -267,22 +310,13 @@ button:hover {
   max-width: 600px;
 }
 
+/* ==================== ANIMAZIONE HEARTBEAT ==================== */
 @keyframes heartbeat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  20% {
-    transform: scale(1.1);
-  }
-  40% {
-    transform: scale(0.95);
-  }
-  60% {
-    transform: scale(1.05);
-  }
-  80% {
-    transform: scale(0.98);
-  }
+  0%, 100% { transform: scale(1); }
+  20% { transform: scale(1.1); }
+  40% { transform: scale(0.95); }
+  60% { transform: scale(1.05); }
+  80% { transform: scale(0.98); }
 }
+
 </style>
