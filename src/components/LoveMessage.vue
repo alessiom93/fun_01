@@ -231,10 +231,10 @@ h1 {
 #message {
   font-size: 3rem;
   margin-bottom: 30px;
-  color: red; /* rosa chiaro in contrasto con sfondo */
-  -webkit-text-stroke: 0.3px #ffffff; /* contorno nero marcato */
-  text-stroke: 0.3px #ffffff;
-  text-shadow: 0.1px 0.1px 10px rgba(0,0,0,1); /* piccolo glow nero */
+  color: rgb(0, 0, 0); /* rosa chiaro in contrasto con sfondo */
+  -webkit-text-stroke: 0.2px #ff0000; /* contorno nero marcato */
+  text-stroke: 0.2px #ff0000;
+  text-shadow: 0.1px 0.1px 10px rgb(255, 255, 255); /* piccolo glow nero */
   animation: heartbeat 2.5s infinite;
 }
 
