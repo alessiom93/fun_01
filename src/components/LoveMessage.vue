@@ -204,7 +204,7 @@ gsap.fromTo(".popup",
 /* ==================== LOVE CONTAINER ==================== */
 .love-container {
   position: relative;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   text-align: center;
   color: #ff6699; /* più saturo per visibilità */
