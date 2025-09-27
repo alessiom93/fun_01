@@ -6,7 +6,7 @@
     <button @click="surprise">Clicca per un messaggio speciale 💌</button>
 
     <div ref="explosion" class="explosion-container" aria-hidden="true"></div>
-    <div v-if="showPopup" class="popup">❤️❤️❤️ TI AMO ❤️❤️❤️</div>
+    <div v-if="showPopup" class="popup">❤️❤️❤️ TI AMO ❤️❤️❤️<span class="corner-heart">❤️</span></div>
     <audio ref="audio" src="/music/love.mp3" autoplay loop></audio>
   </div>
 </template>
@@ -325,20 +325,29 @@ button:hover {
   60% { transform: translateX(-50%) scale(0.95); }
 }
 
-/* cuoricini che salgono ai lati */
-.popup::before,
-.popup::after {
+/* ==================== CUORI AI LATI ==================== */
+.popup::before {
   content: "❤️";
   position: absolute;
+  left: 10px;
+  bottom: 5px;
   font-size: 1.8rem;
   opacity: 0.8;
   animation: float-up 2.5s infinite ease-in-out;
-}
-.popup::before {
-  left: 10px;
-  bottom: 5px;
   animation-delay: 0.4s;
 }
+
+.popup .corner-heart {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 1.8rem;
+  opacity: 0.8;
+  animation: float-up 2.5s infinite ease-in-out;
+  animation-delay: 1s;
+  pointer-events: none;
+}
+
 .popup::after {
   right: 10px;
   top: 5px;
@@ -350,6 +359,32 @@ button:hover {
   50% { transform: translateY(-8px); opacity: 1; }
   100% { transform: translateY(0); opacity: 0.9; }
 }
+
+/* riflesso passante */
+.popup::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0%   { left: -150%; }
+  60%  { left: 150%; }
+  100% { left: 150%; }
+}
+
 
 
 /* ==================== ANIMAZIONE HEARTBEAT ==================== */
