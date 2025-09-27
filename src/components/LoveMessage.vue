@@ -7,6 +7,7 @@
 
     <div ref="explosion" class="explosion-container" aria-hidden="true"></div>
     <div v-if="showPopup" class="popup">❤️❤️❤️ TI AMO ❤️❤️❤️<span class="corner-heart">❤️</span></div>
+    <div ref="fireworksContainer" class="fireworks-canvas"></div>
     <audio ref="audio" src="/music/love.mp3" autoplay loop></audio>
   </div>
 </template>
@@ -14,6 +15,7 @@
 <script>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { gsap } from "gsap";
+import { Fireworks } from "fireworks-js";
 
 export default {
   setup() {
@@ -24,6 +26,9 @@ export default {
     const audio = ref(null);
     const showPopup = ref(false);
 
+    const fireworksContainer = ref(null);
+    let fireworksInstance = null;
+
     // pool e controllo intervallo
     let pool = [];
     let available = [];
@@ -31,7 +36,7 @@ export default {
 
     const POOL_SIZE = 180; // aumentare se vuoi più sovrapposizioni senza reuse
     const TICK_MS = 40; // quanto spesso generare (40ms = fluido)
-    const DURATION_MS = 10000; // 10 secondi di emissione
+    const DURATION_MS = 7000; // 7 secondi di emissione
 
     onMounted(() => {
       gsap.from(title.value, { y: -50, opacity: 0, duration: 1, ease: "bounce.out" });
@@ -43,11 +48,29 @@ export default {
       createPool();
       // pulizia al resize per ricalcolare raggio se necessario
       window.addEventListener("resize", handleResize);
-    });
+      if (fireworksContainer.value){
+
+        fireworksInstance = new Fireworks(fireworksContainer.value, {
+          autoresize: true,
+          opacity: 0.5,
+          acceleration: 1.05,
+          friction: 0.97,
+          gravity: 1.5,
+          particles: 50,
+          trace: 3,
+          explosion: 5,
+          intensity: 30,
+          flickering: 50,
+          hue: { min: 0, max: 360 }
+        });
+      }
+      });
 
     onBeforeUnmount(() => {
       clearInterval(tickInterval);
       window.removeEventListener("resize", handleResize);
+      fireworksInstance?.stop();
+      fireworksInstance?.clear();
     });
 
     function handleResize(){}
@@ -147,16 +170,20 @@ onComplete: () => {
         clearInterval(tickInterval);
         tickInterval = null;
       }
-
+      
       showPopup.value = true;
-gsap.fromTo(".popup", 
-  { scale: 0.7, opacity: 0 }, 
-  { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" }
-);
+      gsap.fromTo(".popup", 
+      { scale: 0.7, opacity: 0 }, 
+      { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" }
+    );
+    fireworksInstance.start();
       setTimeout(() => {
         gsap.to(".popup", { scale: 0, opacity: 0, duration: 0.45, ease: "back.in(1.7)" });
-        setTimeout(() => (showPopup.value = false), 450);
-      }, 10000);
+        setTimeout(() => {showPopup.value = false}, 450);
+      }, 5000);
+      setTimeout(() => {
+        fireworksInstance?.stop()
+      }, 15000);
 
       // se pool non esiste (es. prima creazione), ricrea
       if (!pool || pool.length === 0) createPool();
@@ -177,7 +204,7 @@ gsap.fromTo(".popup",
       }, TICK_MS);
     }
 
-    return { title, message, message2, explosion, surprise, showPopup, audio };
+    return { title, message, message2, explosion, surprise, showPopup, audio, fireworksContainer };
   },
 };
 </script>
@@ -395,5 +422,17 @@ button:hover {
   60% { transform: scale(1.05); }
   80% { transform: scale(0.98); }
 }
+
+/* =================== FUOCHI D'ARTIFICIO ==================== */
+.fireworks-canvas {
+  position: fixed;
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 90; /* sotto il popup che ha z-index:100 */
+  pointer-events: none;
+}
+
 
 </style>
