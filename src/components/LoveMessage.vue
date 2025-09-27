@@ -149,11 +149,14 @@ onComplete: () => {
       }
 
       showPopup.value = true;
-      gsap.fromTo(".popup", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.7)" });
+gsap.fromTo(".popup", 
+  { scale: 0.7, opacity: 0 }, 
+  { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" }
+);
       setTimeout(() => {
         gsap.to(".popup", { scale: 0, opacity: 0, duration: 0.45, ease: "back.in(1.7)" });
         setTimeout(() => (showPopup.value = false), 450);
-      }, 1800);
+      }, 10000);
 
       // se pool non esiste (es. prima creazione), ricrea
       if (!pool || pool.length === 0) createPool();
@@ -292,23 +295,62 @@ button:hover {
 }
 
 /* ==================== POPUP ==================== */
+/* ==================== POPUP ==================== */
 .popup {
   position: fixed;
   top: 20%;
   left: 50%;
-  transform: translateX(-50%);
-  background: #ff1493;
+  transform: translateX(-50%) scale(1);
+  background: rgba(255, 20, 147, 0.9);
   color: white;
-  padding: 15px 30px;
+  padding: 15px 30px; /* dimensioni simili all'originale */
   border-radius: 20px;
-  font-size: 3rem;
+  font-size: 3rem; /* uguale al tuo attuale */
   font-weight: bold;
   text-align: center;
   z-index: 100;
-  box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
-  width: 60%;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+  border: 2px solid #fff;
+  text-shadow: 0 0 8px #fff, 0 0 15px #ff99cc;
+  animation: popup-beat 1.8s infinite;
   max-width: 600px;
+  width: 60%;
+  overflow: hidden;
 }
+
+/* battito soft */
+@keyframes popup-beat {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  40% { transform: translateX(-50%) scale(1.08); }
+  60% { transform: translateX(-50%) scale(0.95); }
+}
+
+/* cuoricini che salgono ai lati */
+.popup::before,
+.popup::after {
+  content: "❤️";
+  position: absolute;
+  font-size: 1.8rem;
+  opacity: 0.8;
+  animation: float-up 2.5s infinite ease-in-out;
+}
+.popup::before {
+  left: 10px;
+  bottom: 5px;
+  animation-delay: 0.4s;
+}
+.popup::after {
+  right: 10px;
+  top: 5px;
+  animation-delay: 1s;
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(-8px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.9; }
+}
+
 
 /* ==================== ANIMAZIONE HEARTBEAT ==================== */
 @keyframes heartbeat {
