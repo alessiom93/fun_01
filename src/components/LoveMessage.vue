@@ -8,7 +8,7 @@
     <div ref="explosion" class="explosion-container" aria-hidden="true"></div>
     <div v-if="showPopup" class="popup">❤️❤️❤️ TI AMO ❤️❤️❤️<span class="corner-heart">❤️</span></div>
     <div ref="fireworksContainer" class="fireworks-canvas"></div>
-    <audio ref="audio" src="/music/love.mp3" autoplay loop></audio>
+    <audio ref="audio" src="/music/love.mp3" autoplay loop muted></audio>
   </div>
 </template>
 
@@ -165,6 +165,9 @@ onComplete: () => {
 
 
     function surprise() {
+      // fa partite l'audio che è in muted di default
+      audio.value.muted = false;
+      audio.value.play().catch(()=>{});
       // evita più lanci sovrapposti
       if (tickInterval) {
         clearInterval(tickInterval);
