@@ -343,7 +343,7 @@ button:hover {
   border: 2px solid #fff;
   text-shadow: 0 0 8px #fff, 0 0 15px #ff99cc;
   animation: popup-beat 1.8s infinite;
-  max-width: 600px;
+  max-width: 800px;
   width: 60%;
   overflow: hidden;
 }
